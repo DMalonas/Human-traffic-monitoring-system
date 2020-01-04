@@ -6,21 +6,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import nodes.ParkNodesInputType;
+
 public class AmusementParkMain {
 
 	public static void main(String[] args) {
+		ParkNodesInputType parkNodesInputType = new ParkNodesInputType("Map/Node_J.txt");
 		// TODO Auto-generated method stub
-		File file = new File("Map/Node_J.txt");
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(file));
-			String st;
-			while((st = br.readLine()) != null) {
-				System.out.println(st);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 }
