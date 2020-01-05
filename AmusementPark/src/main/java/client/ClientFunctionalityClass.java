@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Arrays;
 
 public class ClientFunctionalityClass {
 
@@ -19,10 +20,13 @@ public class ClientFunctionalityClass {
 
 	private void sendRequestToNode() throws IOException {
 		br = new BufferedReader(new FileReader("ClientFile/ClientFile.txt"));
-		String line = br.readLine();
-		while(line != null) {
+		String line;
+		while((line= br.readLine()) != null) {
 			String[] tokenizedMessage = line.split(" ");
-			
+			socket = new Socket(tokenizedMessage[2], Integer.parseInt(tokenizedMessage[3]));
+			out = new PrintWriter(socket.getOutputStream(), true);
+			out.println(tokenizedMessage[0] + " " + tokenizedMessage[1]);
+			out.close();
 		}
 	}
 }
