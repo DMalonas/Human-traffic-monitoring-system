@@ -24,7 +24,7 @@ public class ParkNode {
 	}
 
 	public String getPort() {
-		return this.port;
+		return port;
 	}
 
 	public void receiveFromClient(String messageType, String ticketID) {
@@ -42,6 +42,10 @@ public class ParkNode {
 
 	public void receiveFromNode(String string, String string2) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	public void receiveFromConsole(String input) {
 		
 	}
 

@@ -26,7 +26,11 @@ public class ClientFunctionalityClass {
 			socket = new Socket(tokenizedMessage[2], Integer.parseInt(tokenizedMessage[3]));
 			out = new PrintWriter(socket.getOutputStream(), true);
 			out.println(tokenizedMessage[0] + " " + tokenizedMessage[1]);
+			System.out.println(tokenizedMessage[0] + " " + tokenizedMessage[1]);
 			out.close();
 		}
+		
+		
+		
 	}
 }
