@@ -1,5 +1,8 @@
 package nodes;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import communication.*;
 
 public class ParkNode {
@@ -22,6 +25,24 @@ public class ParkNode {
 
 	public String getPort() {
 		return this.port;
+	}
+
+	public void receiveFromClient(String messageType, String ticketID) {
+		if(messageType.equals("ENTER")) {
+			printToConsole(messageType + " REQUEST BY " + ticketID);
+		}
+		if(messageType.equals("EXIT")) {
+			printToConsole(messageType + " REQUEST BY " + ticketID);
+		}
+	}
+
+	private void printToConsole(String message) {
+		System.out.println("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS").format(new Date()) + " | " + id + " ] " + message);
+	}
+
+	public void receiveFromNode(String string, String string2) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

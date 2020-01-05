@@ -17,10 +17,17 @@ public class ParkNodeCommunicator {
 		parkNodeReceiver.start();
 	}
 
-	public void processIncomingMessage(String message) {
+	public void processIncomingMessage(String incomingMessage) {
 		// TODO Auto-generated method stub
-		String[] arr = message.split(message, 2);
-		System.out.println(Arrays.toString(arr));
+		String arr[] = incomingMessage.split(incomingMessage, 2); // https://stackoverflow.com/questions/5067942/what-is-the-best-way-to-extract-the-first-word-from-a-string-in-java
+		if (arr.length == 2) {
+			if(arr[0].equals("ENTER") || arr[0].equals("EXIT")) {
+				System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+				parentParkNode.receiveFromClient(arr[0], arr[1]);
+			} else {
+				parentParkNode.receiveFromNode(arr[0], arr[1]);
+			}
+		}
 	}
 
 }
