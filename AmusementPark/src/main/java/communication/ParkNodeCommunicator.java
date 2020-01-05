@@ -1,5 +1,7 @@
 package communication;
 
+import java.util.Arrays;
+
 import nodes.ParkNode;
 
 public class ParkNodeCommunicator {
@@ -13,6 +15,12 @@ public class ParkNodeCommunicator {
 		this.parentParkNode = parentParkNode;
 		parkNodeReceiver = new ParkNodeReceiver(this, port);
 		parkNodeReceiver.start();
+	}
+
+	public void processIncomingMessage(String message) {
+		// TODO Auto-generated method stub
+		String[] arr = message.split(message, 2);
+		System.out.println(Arrays.toString(arr));
 	}
 
 }

@@ -40,6 +40,7 @@ public class ParkNodeReceiver implements Runnable{
 				InputStreamReader isr = new InputStreamReader(is);
 				BufferedReader br = new BufferedReader(isr);
 				String message = br.readLine();
+				parkNodeCommunicator.processIncomingMessage(message);
 			}
 		} catch (IOException e) {
 			System.out.println("Port " + port + " listening part closed");
