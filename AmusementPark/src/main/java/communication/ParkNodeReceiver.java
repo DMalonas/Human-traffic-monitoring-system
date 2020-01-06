@@ -16,7 +16,6 @@ public class ParkNodeReceiver implements Runnable{
 	public ParkNodeReceiver(ParkNodeCommunicator parkNodeCommunicator, int port) {
 		this.parkNodeCommunicator = parkNodeCommunicator;
 		this.port = port;
-		
 	}
 
 	public void start() {
