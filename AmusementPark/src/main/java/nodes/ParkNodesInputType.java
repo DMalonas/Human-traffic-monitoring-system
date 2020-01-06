@@ -22,6 +22,18 @@ public class ParkNodesInputType {
 			metricValue = Integer.parseInt(br.readLine());
 			parkNode = new ParkNode(id, "127.0.0.1", port, metricValue);
 			
+			String neighbourLine, neighbourId, neighbourIp, neighbourPort;
+			String[] tokenizedNeighbourLine;
+			while((neighbourLine = br.readLine()) != null) {
+				tokenizedNeighbourLine = neighbourLine.split(" ");
+				neighbourId = tokenizedNeighbourLine[0];
+				neighbourIp = tokenizedNeighbourLine[1];
+				neighbourPort = tokenizedNeighbourLine[2];
+				Neighbour neighbour = new Neighbour(neighbourId, neighbourIp, neighbourPort);
+				parkNode.addNeighbour(neighbour);
+				
+			}
+			br.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found.");
 			System.exit(0);

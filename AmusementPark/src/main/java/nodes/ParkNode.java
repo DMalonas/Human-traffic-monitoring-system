@@ -1,7 +1,10 @@
 package nodes;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+
+import org.apache.commons.math3.ml.neuralnet.sofm.NeighbourhoodSizeFunction;
 
 import communication.*;
 
@@ -13,6 +16,7 @@ public class ParkNode {
 	private int metricValue;
 	
 	private ParkNodeCommunicator parkNodeCommunicator;
+	private ArrayList<Neighbour> neighbours;
 
 	public ParkNode(String id, String ipAddress, String port, int metricValue) {
 		this.id = id;
@@ -21,6 +25,7 @@ public class ParkNode {
 		this.metricValue = metricValue;
 		System.out.print("Node " + id + " ");
 		parkNodeCommunicator = new ParkNodeCommunicator(this);
+		neighbours = new ArrayList<Neighbour>();
 	}
 
 	public String getPort() {
@@ -41,12 +46,15 @@ public class ParkNode {
 	}
 
 	public void receiveFromNode(String string, String string2) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	public void receiveFromConsole(String input) {
 		
+	}
+
+	public void addNeighbour(Neighbour neighbour) {
+		neighbours.add(neighbour);
 	}
 
 }
