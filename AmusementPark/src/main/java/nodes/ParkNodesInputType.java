@@ -10,6 +10,7 @@ public class ParkNodesInputType {
 
 	ParkNode parkNode;
 	private static final String LOCALHOST = "127.0.0.1";
+	private static final Object FLEXIBLE_TYPE = "FLEXIBLE";
 	
 	public ParkNodesInputType(String filename) {
 		String id, port;
@@ -19,6 +20,10 @@ public class ParkNodesInputType {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(file));
 			id = br.readLine();
+			if (id.equals(FLEXIBLE_TYPE)) {
+				boolean flexible = true;
+				id = br.readLine();
+			}
 			port = br.readLine();
 			metricValue = Integer.parseInt(br.readLine());
 			parkNode = new ParkNode(id, LOCALHOST, port, metricValue);

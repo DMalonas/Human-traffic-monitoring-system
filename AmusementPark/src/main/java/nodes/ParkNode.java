@@ -8,6 +8,7 @@ import java.util.Queue;
 import org.apache.commons.math3.ml.neuralnet.sofm.NeighbourhoodSizeFunction;
 
 import communication.*;
+import utilities.MessageTypes;
 
 public class ParkNode {
 	// 1. Identification attributes
@@ -79,10 +80,30 @@ public class ParkNode {
 	 * Initialise attributes with false and null.
 	 */
 	public void initializeGenericAttributes() {
+		// 2. Current coordinator info
 		currentCoordinatorId = null;
 		currentCoordinatorIp = null;
 		currentCoordinatorPort = null;
-		isCoordinator = false;
+		isCoordinator = false;  // No node is a coordinator when they are first created
+		
+		
+		//6.  Neighbour nodes related attributes
+		neighbours = new ArrayList<NodeToCommunicateWith>();
+		possibleNeighbours = new ArrayList<NodeToCommunicateWith>();
+		
+		
+		// 3. Election related attributes
+		currentElectionParentId = null;
+		neighBoursReplied = 0;
+		startedElection = false;
+		expectingCoordinatorInfo = true;
+		isDesignatedElectionStarter = false;
+		
+		
+		// 5. Park operation and mutual exclusion related attributes
+		pendingCoordinatorReply = false;
+		ticketIdToEnter = null;
+		ticketIdToExit = null;
 	}
 
 	public String getPort() {
@@ -91,11 +112,12 @@ public class ParkNode {
 
 	
 	public void receiveFromClient(String messageType, String ticketID) {
-		if(messageType.equals("ENTER") || messageType.equals("EXIT")) {
-			if(messageType.equals("ENTER")) {
+		if(!pendingCoordinatorReply && (messageType.equals(MessageTypes.ENTER_MESSAGE) || messageType.equals(MessageTypes.EXIT_MESSAGE))) {
+			pendingCoordinatorReply = true;
+			if(messageType.equals(MessageTypes.ENTER_MESSAGE)) {
 				ticketIdToEnter = ticketID;
 			}
-			if(messageType.equals("EXIT")) {
+			else {
 				ticketIdToExit = ticketID;
 			}
 			printToConsole(messageType + " REQUEST BY " + ticketID);
@@ -105,9 +127,28 @@ public class ParkNode {
 		}
 	}
 
+	
+	/**
+	 * Send a request to the coordinator. 
+	 * First check if I am the coordinator.
+	 * If not the send "ENTER/EXIT REQUEST BY" + ticketID
+	 */
 	private void sendRequestToCoordinator() {
-
+		pendingCoordinatorReply = true;
+		if (currentCoordinatorId == null) {
+			printToConsole(MessageTypes.ENTER_DENIED_NO_COORDINATOR_MESSAGE);
+			pendingCoordinatorReply = false;
+		} else if (isCoordinator) {
+			handleMessageAsCoordinator(id, MessageTypes.MYSELF_MESSAGE, MessageTypes.MYSELF_MESSAGE, MessageTypes.REQUEST_RESOURCE_ACCESS_MESSAGE);
+		}
 	}
+	
+
+	private void handleMessageAsCoordinator(String id2, String myselfMessage, String myselfMessage2,
+			String requestResourceAccessMessage) {
+		
+	}
+
 
 	private void printToConsole(String message) {
 		System.out.println("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS").format(new Date()) + " | " + id + " ] " + message);
