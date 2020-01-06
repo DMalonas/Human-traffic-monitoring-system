@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 import nodes.ParkNode;
 import nodes.ParkNodesInputType;
+import utilities.MessageTypes;
 
 public class AmusementParkMain {
 	public static void main(String[] args) {
@@ -17,9 +18,10 @@ public class AmusementParkMain {
 		Scanner scanner = new Scanner(System.in);
 		while (true) {
 			String input = scanner.nextLine();
-			if (input.equals("ELECTION") || input.equals("LEAVE"))
+			if (input.equals(MessageTypes.ENTER_MESSAGE) || input.equals(MessageTypes.LEAVE_MESSAGE)) {
 				System.out.println("input is " + input);
 				parkNode.receiveFromConsole(input);
+			}
 		}
 	}
 }
