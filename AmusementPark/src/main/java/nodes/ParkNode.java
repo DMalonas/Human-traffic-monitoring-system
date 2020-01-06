@@ -158,9 +158,29 @@ public class ParkNode {
 		printToConsole("Receive from " + parkNodeId + ": " + message);		
 	}
 
-	public void receiveFromConsole(String input) {
-		
+	/**
+	 * Prints the message received from the console.
+	 * A user can start an ELECTION by typing ELECTION
+	 * to the console of one of the running nodes, or
+	 * terminate the node by typing LEAVE in the console.
+	 * @param message The message entered. Valid messages ELECTION, LEAVE.
+	 */
+	public void receiveFromConsole(String message) {
+		printToConsole("Received from Console: " + message);
+		if (message.equals(MessageTypes.ELECTION_MESSAGE)) {
+			startedElection = true;
+			//broadcastToArrayListNodes(message, neighbours, null); //broadcast ELECTION_MESSAGE message to neighbours.
+		}
+		else if (message.equals(MessageTypes.LEAVE_MESSAGE))
+			leaveNetwork();
 	}
+
+	private void leaveNetwork() {
+		//broadcastToArrayListNodes(MessageTypes.NODE_LEAVING_MESSAGE, neighbours, null);
+		printToConsole("LEAVING...");
+		System.exit(0);		
+	}
+
 
 	public void addPossibleNeighbour(NodeToCommunicateWith neighbour) {
 		possibleNeighbours.add(neighbour);

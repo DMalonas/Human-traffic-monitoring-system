@@ -16,4 +16,10 @@ public class MessageTypes {
 
 
 	public static final String REQUEST_RESOURCE_ACCESS_MESSAGE = "REQUEST_RESOURCE_ACCESS";
+
+
+	public static final String ELECTION_MESSAGE = "ELECTION";
+
+
+	public static final String NODE_LEAVING_MESSAGE = "LEAVING";
 }
