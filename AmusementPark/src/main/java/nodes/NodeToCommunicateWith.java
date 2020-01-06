@@ -1,12 +1,12 @@
 package nodes;
 
-public class Neighbour {
+public class NodeToCommunicateWith {
 
 	private String id;
 	private String ipAddress;
 	private String port;
 	
-	public Neighbour(String neighbourId, String neighbourIp, String neighbourPort) {
+	public NodeToCommunicateWith(String neighbourId, String neighbourIp, String neighbourPort) {
 		this.id = neighbourId;
 		this.ipAddress = neighbourIp;
 		this.port = neighbourPort;

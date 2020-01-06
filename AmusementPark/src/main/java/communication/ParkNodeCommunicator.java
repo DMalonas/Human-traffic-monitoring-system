@@ -3,6 +3,7 @@ package communication;
 import java.util.Arrays;
 
 import nodes.ParkNode;
+import utilities.MessageTypes;
 
 public class ParkNodeCommunicator {
 
@@ -23,11 +24,11 @@ public class ParkNodeCommunicator {
 //			System.out.println("arr[" + i + "] == " + arr[i]);
 //		}
 		if (arr.length == 2) {
-			if(arr[0].equals("ENTER") || arr[0].equals("EXIT")) {
-				System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+			if(arr[0].equals(MessageTypes.ENTER_MESSAGE) || arr[0].equals(MessageTypes.EXIT_MESSAGE)) {
 				parentParkNode.receiveFromClient(arr[0], arr[1]);
 			} else {
-				parentParkNode.receiveFromNode(arr[0], arr[1]);
+				String[] tokenizedMessage = arr[1].split(" ", 3);
+				parentParkNode.receiveFromNode(arr[0], tokenizedMessage[0],  tokenizedMessage[1], tokenizedMessage[2]);
 			}
 		}
 	}
