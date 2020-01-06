@@ -155,8 +155,141 @@ public class ParkNode {
 	}
 
 	public void receiveFromNode(String parkNodeId, String parkNodeIp, String parkNodePort, String message) {
-		printToConsole("Receive from " + parkNodeId + ": " + message);		
+		printToConsole("Receive from " + parkNodeId + ": " + message);
+		
+		// If the message is NEW_NEIGHBOUR ("Flexible" network scenario)
+		if (message.equals(MessageTypes.NEW_NEIGHBOUR_MESSAGE)) {
+			handleNewNeighbourMessage(parkNodeId, parkNodeIp, parkNodePort);
+		}
+		// If the neighbour has answered our NEW_NEIGHBOUR_MESSAGE with WELCOME_MESSAGE
+		else if (message.equals(MessageTypes.WELCOME_MESSAGE)) {
+			handleWelcomeMessage(parkNodeId, parkNodeIp, parkNodePort);
+		} 
+		//If a node wants to request access from the coordinator or let it know that it will be releasing the resource.
+		else if (message.equals(MessageTypes.REQUEST_RESOURCE_ACCESS_MESSAGE) || message.equals(MessageTypes.RELEASING_RESOURCE_MESSAGE)) {
+			handleMessageAsCoordinator(parkNodeId, parkNodeIp, parkNodePort, message);
+		}
+		// If the message is ELECTION
+		else if (message.equals(MessageTypes.ELECTION_MESSAGE)) {
+			handleElectionMessage(parkNodeId);
+		}
+		// If the message is ELECTION-ACK
+		else if (message.equals(MessageTypes.ELECTION_ACK_MESSAGE)) {
+			handleElectionAckMessage();
+		}
+		//If the messsage is about a neighbour node that left the network.
+		else if (message.equals(MessageTypes.NODE_LEAVING_MESSAGE)) {
+			handleNodeLeavingMessage(parkNodeId);
+		}
+		//If the message is about the coordinator that left.
+		else if (message.equals(MessageTypes.COORDINATOR_LEFT_MESSAGE)) {
+			handleCoordinatorLeftMessage(parkNodeId);
+		}
+		/* If the message is from the coordinator making this ParkNode the designated election starter node 
+		   that will start the election if the coordinator leaves or gets terminated. 
+		*/
+		else if (message.equals(MessageTypes.DESIGNATED_ELECTION_STARTER_MESSAGE)) {
+			isDesignatedElectionStarter = true;
+		}
+		
+		/* If the message is not ELECTION, or ELECTION-ACK, or any of the above,
+		 * that means that one of the children sends a message with metric info
+		 * to its parent,or that we are dealing with a COORDINATOR message.
+		 */
+		else {
+			String[] tokenizedMessage = message.split(" ");  // split the message.
+			//One of the children has replied with metric value info.
+			if (tokenizedMessage[0].equals(MessageTypes.ELECTION_ACK_MESSAGE)) {
+				handleMetricReceivedMessage(tokenizedMessage[1]); //the last word of tokenizedMessage[1] contains the metric.
+			}
+			//Handling the new coordinator message. (NEW_COORDINATOR_MESSAGE id ip port) 
+			else if (tokenizedMessage[0].equals(MessageTypes.NEW_COORDINATOR_MESSAGE)) {
+				handleNewCoordinatorMessage(parkNodeId, tokenizedMessage);
+			}
+			//Handling the existing coordinator message to the new "flexible nodes".
+			else if (tokenizedMessage[0].equals(MessageTypes.EXISTING_COORDINATOR_MESSAGE)) {
+				handleExistingCoordinatorMessage(parkNodeId, parkNodeIp, parkNodePort, tokenizedMessage);
+			}
+			//When a ParkNode gets access to the common resource, Resource.txt.
+			else if (tokenizedMessage[0].equals(MessageTypes.GRANTED_RESOURCE_ACCESS_MESSAGE)) {
+				handleGrantedResourceAccessMessage(parkNodeId);
+			}
+			//When a ParkNode has been denied access by the coordinator to the common resource Resource.txt.
+			else if (tokenizedMessage[0].equals(MessageTypes.DENIED_RESOURCE_ACCESS_MESSAGE)) {
+				handleDeniedResourceAccessMessage(parkNodeId);
+			}
+		}
 	}
+
+
+
+
+	private void handleDeniedResourceAccessMessage(String parkNodeId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	private void handleGrantedResourceAccessMessage(String parkNodeId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	private void handleExistingCoordinatorMessage(String parkNodeId, String parkNodeIp, String parkNodePort,
+			String[] tokenizedMessage) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	private void handleNewCoordinatorMessage(String parkNodeId, String[] tokenizedMessage) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	private void handleMetricReceivedMessage(String string) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	private void handleCoordinatorLeftMessage(String parkNodeId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	private void handleNodeLeavingMessage(String parkNodeId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	private void handleElectionAckMessage() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	private void handleElectionMessage(String parkNodeId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	private void handleWelcomeMessage(String parkNodeId, String parkNodeIp, String parkNodePort) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	private void handleNewNeighbourMessage(String parkNodeId, String parkNodeIp, String parkNodePort) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 	/**
 	 * Prints the message received from the console.

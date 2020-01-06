@@ -22,4 +22,34 @@ public class MessageTypes {
 
 
 	public static final String NODE_LEAVING_MESSAGE = "LEAVING";
+
+
+	public static final String NEW_NEIGHBOUR_MESSAGE = null;
+
+
+	public static final String WELCOME_MESSAGE = null;
+
+
+	public static final String RELEASING_RESOURCE_MESSAGE = null;
+
+
+	public static final String ELECTION_ACK_MESSAGE = null;
+
+
+	public static final String COORDINATOR_LEFT_MESSAGE = null;
+
+
+	public static final String DESIGNATED_ELECTION_STARTER_MESSAGE = null;
+
+
+	public static final String NEW_COORDINATOR_MESSAGE = null;
+
+
+	public static final String EXISTING_COORDINATOR_MESSAGE = null;
+
+
+	public static final String GRANTED_RESOURCE_ACCESS_MESSAGE = null;
+
+
+	public static final String DENIED_RESOURCE_ACCESS_MESSAGE = null;
 }
