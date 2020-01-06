@@ -17,7 +17,8 @@ public class AmusementParkMain {
 		Scanner scanner = new Scanner(System.in);
 		while (true) {
 			String input = scanner.nextLine();
-			if (input.equals("ELECTION"))
+			if (input.equals("ELECTION") || input.equals("LEAVE"))
+				System.out.println("input is " + input);
 				parkNode.receiveFromConsole(input);
 		}
 	}

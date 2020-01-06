@@ -10,27 +10,40 @@ import java.util.Arrays;
 
 public class ClientFunctionalityClass {
 
+
+	private Socket socket;
 	private PrintWriter out;
 	private BufferedReader br;
-	private Socket socket;
 	
 	public ClientFunctionalityClass() throws IOException {
 		sendRequestToNode();
 	}
 
-	private void sendRequestToNode() throws IOException {
-		br = new BufferedReader(new FileReader("ClientFile/ClientFile.txt"));
-		String line;
-		while((line= br.readLine()) != null) {
-			String[] tokenizedMessage = line.split(" ");
-			socket = new Socket(tokenizedMessage[2], Integer.parseInt(tokenizedMessage[3]));
-			out = new PrintWriter(socket.getOutputStream(), true);
-			out.println(tokenizedMessage[0] + " " + tokenizedMessage[1]);
-			System.out.println(tokenizedMessage[0] + " " + tokenizedMessage[1]);
-			out.close();
+	private void sendRequestToNode() {
+		try {
+			br = new BufferedReader(new FileReader("ClientFile/ClientFile.txt"));
+			String hostIp = null;
+			int hostPort = 0;
+			String line;
+
+			while((line= br.readLine()) != null) {
+				String[] tokenizedMessage = line.split(" "); 
+				hostIp = tokenizedMessage[2];
+				hostPort = Integer.parseInt(tokenizedMessage[3]);
+				try {
+					socket = new Socket(hostIp, hostPort);
+					out = new PrintWriter(socket.getOutputStream(), true);
+					out.println(tokenizedMessage[0] + " " + tokenizedMessage[1]);
+					System.out.println(tokenizedMessage[0] + " " + tokenizedMessage[1]);
+					out.close();
+	        	}
+	        	catch (Exception e) {
+	    	    	System.out.println("Cannot find host " + hostIp + ":" + hostPort);
+	    	    }
+			}
+		} catch (NumberFormatException | IOException e) {
+	    	System.out.println("Cannot read file");
 		}
-		
-		
 		
 	}
 }
