@@ -2,50 +2,80 @@ package communication;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class ParkNodeReceiver implements Runnable{
-
-	private ParkNodeCommunicator parkNodeCommunicator;
-	int port;
-	ServerSocket serverSocket;
+/**
+ * The ParkNodeReceiver receives messages for
+ * the node, forwards to the ParkNodeCommunicator
+ * and the ParkNodeCommunicator forwards them to
+ * the internal logic, in the ParkNode where the
+ * message is handled.
+ * @author 170011408
+ *
+ */
+public class ParkNodeReceiver implements Runnable {
 	
+	private ParkNodeCommunicator parkNodeCommunicator;
+	ServerSocket serverSocket;
+	int port;
+	
+	/**
+	 * ParkNodeReceiver constructor.
+	 * @param parkNodeCommunicator 
+	 * @param port
+	 */
 	public ParkNodeReceiver(ParkNodeCommunicator parkNodeCommunicator, int port) {
 		this.parkNodeCommunicator = parkNodeCommunicator;
 		this.port = port;
 	}
-
+	
+	/**
+	 * Start a thread that listens
+	 * for incoming messages.
+	 */
 	public void start() {
 		Thread thread = new Thread(this);
 		thread.start();
 	}
-
+	
+	/**
+	 * Stop thread.
+	 * @throws IOException
+	 */
 	public void stop() throws IOException {
-		this.serverSocket.close();
+		serverSocket.close();
 	}
-	
-	
+
+	/**
+	 * Overriden Runnable interface method run().
+	 * Open an buffered InputStream and wait for
+	 * input. When any message is received it is
+	 * forwarded to the ParkNodeCommunicator of 
+	 * the ParkNodeReceiver.
+	 */
 	@Override
 	public void run() {
 		try {
 			serverSocket = new ServerSocket(port);
-			System.out.println("Listening from port: " + port);
+			System.out.println("Listening from port " + port);
 			while(true) {
 				Socket socket = serverSocket.accept();
-				InputStream is = socket.getInputStream();
-				InputStreamReader isr = new InputStreamReader(is);
-				BufferedReader br = new BufferedReader(isr);
-				String message = br.readLine();
+				// Receiving communication code here
+				InputStreamReader inputStreamReader = new InputStreamReader(socket.getInputStream());
+				BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+				String message = bufferedReader.readLine();
+				// Process incoming message
 				System.out.println(message);
+
 				parkNodeCommunicator.processIncomingMessage(message);
 			}
 		} catch (IOException e) {
 			System.out.println("Port " + port + " listening part closed");
 			System.exit(0);
 		}
+		
 	}
 
 }
